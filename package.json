@@ -1,13 +1,8 @@
 {
-  "name": "2021",
+  "name": "aoc-2021",
   "version": "1.0.0",
   "description": "Advent of Code 2021",
-  "main": "index.js",
-  "scripts": {
-    "day1": "node ./day1",
-    "day2": "node ./day2",
-    "day3": "node ./day3"
-  },
-  "author": "",
+  "main": "run.js",
+  "author": "Robert Hewitt",
   "license": "ISC"
 }
