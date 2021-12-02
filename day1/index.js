@@ -28,7 +28,6 @@ const runWith = ({ size, file }) => {
             if (lastVal && current > lastVal) return acc + 1;
             return acc;
         }, 0);
-
 }
 
 console.log(`START  day 1`)

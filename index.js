@@ -1,2 +1,3 @@
 #!/usr/bin/env node
-require('./day1');
+
+require('./day2');
