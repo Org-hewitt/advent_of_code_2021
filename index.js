@@ -1,3 +1,4 @@
 #!/usr/bin/env node
 
-require('./day2');
+console.log("please use the run scripts to execute the day you want")
+console.log("eg, node day1")
