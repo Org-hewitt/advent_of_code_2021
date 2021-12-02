@@ -8,11 +8,9 @@ const run = () => {
     return ""
 }
 
-console.log(`day 3 - START`)
-
-console.log(`part 1 - T = ${run({ file: test })}`)
-console.log(`part 1 - R = ${run({ file: real })}`)
-console.log(`part 2 - T = ${run({ file: test })}`)
-console.log(`part 2 - R = ${run({ file: real })}`)
-
-console.log(`day 3 - END`)
+console.log(`START - day 3`)
+console.log(`Pt1 : expect x : actual = ${run({ file: test })}`)
+// console.log(`Pt1 : answer = ${run({ file: real })}`)
+// console.log(`Pt2 : expect x : actual = ${run({ file: test })}`)
+// console.log(`Pt2 : answer = ${run({ file: real })}`)
+console.log(`END   - day 3`)
