@@ -9,10 +9,9 @@ const IsNumber = (x) => typeof x === 'number'
 const IsString = (x) => typeof x === 'string'
 const ToInt = (s) => parseInt(s)
 
-const updateRowWithDraw = (input, sDrawNum) => {
-    if (input.find(x => x === sDrawNum)) {
-        // flip sNum => iNum so it prints different in console
-        for (i = 0; i < input.length; i++) input[i] = input[i] === sDrawNum ? ToInt(sDrawNum) : input[i]
+const handleCall = (row, sCalledNumber) => {
+    if (row.find(x => x === sCalledNumber)) {
+        for (i = 0; i < row.length; i++) row[i] = row[i] === sCalledNumber ? ToInt(sCalledNumber) : row[i]
         return true
     }
     return false
@@ -36,9 +35,7 @@ const newBoard = (index) => {
             .reduce((a, b) => a.concat(b))
             .reduce((a, b) => a + b)
         ,
-        nextDraw: (num) => {
-            rows.find(row => updateRowWithDraw(row, num))
-        },
+        callNumber: (num) => { rows.find(row => handleCall(row, num)) },
         hasWon: () => {
             for (row of rows) if (row.every(IsNumber)) return true
             for (i = 0; i < rows[0].length; i++) if (rows.map(row => row[i]).every(IsNumber)) return true
@@ -58,7 +55,7 @@ const run = ({ file, newBoard, winCondition }) => {
     }
 
     for (num of numbers.split(",")) {
-        for (b of boards) b.nextDraw(num)
+        for (b of boards) b.callNumber(num)
 
         const winsThisTurn = boards.filter(b => b.hasWon())
         boards = boards.filter(b => !winsThisTurn.includes(b))
