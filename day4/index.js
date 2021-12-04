@@ -5,19 +5,17 @@ const day = 4;
 const test = `./day${day}/data_test.txt`
 const real = `./day${day}/data_real.txt`
 
-const findInRow = (input, sNum) => {
+const updateRowIfFound = (input, sNum) => {
     if (input.find(x => x === sNum)) {
         const newVals = input.map(x => x === sNum ? parseInt(sNum) : x)
         for (i = 0; i < input.length; i++) {
             input[i] = newVals[i]
         }
+        return true
     }
+    return false
 }
 
-// the board has row data stored as strings
-// when we match, we set to number
-// as these highlight differently in the console.log
-// also we can check for win condition by finding numbers
 const newBoard = (index) => {
     const grid = [[], [], [], [], []]
 
@@ -37,7 +35,7 @@ const newBoard = (index) => {
             .reduce((a, b) => a + b)
         ,
         nextDraw: (num) => {
-            grid.forEach(row => findInRow(row, num))
+            grid.find(row => updateRowIfFound(row, num))
 
             for (row of grid) if (row.every(x => typeof x === "number")) return true
             for (i = 0; i < grid[0].length; i++) if (grid.map(row => row[i]).every(x => typeof x === "number")) return true
