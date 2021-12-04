@@ -36,7 +36,8 @@ const newBoard = (index) => {
         ,
         nextDraw: (num) => {
             grid.find(row => updateRowIfFound(row, num))
-
+        },
+        hasWon: () => {
             for (row of grid) if (row.every(x => typeof x === "number")) return true
             for (i = 0; i < grid[0].length; i++) if (grid.map(row => row[i]).every(x => typeof x === "number")) return true
 
@@ -45,10 +46,10 @@ const newBoard = (index) => {
     }
 }
 
-const run = ({ file, newBoard }) => {
+const run = ({ file, newBoard, winCondition }) => {
     const input = readFile(file).split("\n")
     const drawNumbers = input.shift().split(",")
-    const boards = []
+    let boards = []
     let boardIndex = 0;
 
     // push all the data into the models
@@ -57,10 +58,17 @@ const run = ({ file, newBoard }) => {
         else boards[boardIndex - 1].setRow(line)
     }
 
-    // run through the draw numbers
     let result = 0
+    const wonBoards = []
     for (num of drawNumbers) {
-        const boardWon = boards.find(b => b.nextDraw(num))
+        // run through the draw numbers
+        for (board of boards) board.nextDraw(num)
+
+        const winsThisTurn = boards.filter(b => b.hasWon())
+        boards = boards.filter(b => !winsThisTurn.includes(b))
+
+
+        const boardWon = winCondition({ winsThisTurn, boards })
         if (boardWon) {
             boardWon.print()
             result = boardWon.sumUnMarked() * num
@@ -71,10 +79,15 @@ const run = ({ file, newBoard }) => {
     return result
 }
 
-console.log(`START - day ${day}\n`)
-console.log(`Pt1 : expect 4512 : actual = ${run({ file: test, newBoard })}\n\n`)
-console.log(`Pt2 : expect xxx : actual = ${run({ file: real, newBoard })}\n\n`)
+const pt1 = ({ winsThisTurn }) => winsThisTurn.find(x => true)
+const pt2 = ({ winsThisTurn, boards }) => {
+    if (boards.length === 0) return winsThisTurn[0]
+}
 
-// console.log(`Pt1 : answer = ${run({ file: real })}`)
-// console.log(`Pt2 : answer = ${run2({ file: real })}\n`)
+console.log(`START - day ${day}\n`)
+console.log(`Pt1 : expect 4512 : actual = ${run({ file: test, newBoard, winCondition: pt1 })}\n\n`)
+console.log(`Pt2 : expect 1924 : actual = ${run({ file: test, newBoard, winCondition: pt2 })}\n\n`)
+
+console.log(`Pt1 : answer = ${run({ file: real, newBoard, winCondition: pt1 })}\n\n`)
+console.log(`Pt2 : answer = ${run({ file: real, newBoard, winCondition: pt2 })}\n\n`)
 console.log(`END   - day ${day}\n`)
