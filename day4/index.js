@@ -5,12 +5,14 @@ const day = 4;
 const test = `./day${day}/data_test.txt`
 const real = `./day${day}/data_real.txt`
 
-const updateRowIfFound = (input, sNum) => {
-    if (input.find(x => x === sNum)) {
-        const newVals = input.map(x => x === sNum ? parseInt(sNum) : x)
-        for (i = 0; i < input.length; i++) {
-            input[i] = newVals[i]
-        }
+const IsNumber = (x) => typeof x === 'number'
+const IsString = (x) => typeof x === 'string'
+const ToInt = (s) => parseInt(s)
+
+const updateRowWithDraw = (input, sDrawNum) => {
+    if (input.find(x => x === sDrawNum)) {
+        const newVals = input.map(x => x === sDrawNum ? ToInt(sDrawNum) : x)
+        for (i = 0; i < input.length; i++) input[i] = newVals[i]
         return true
     }
     return false
@@ -27,19 +29,19 @@ const newBoard = (index) => {
         },
         setRow: (sRow) => {
             const items = sRow.split(" ").map(x => x.trim()).filter(x => x != "")
-            const nextR = grid.find(r => r.length === 0)
-            if (nextR) nextR.push(...items)
+            const nextRow = grid.find(r => r.length === 0)
+            if (nextRow) nextRow.push(...items)
         },
-        sumUnMarked: () => grid.map(row => row.filter(x => typeof x === 'string').map(x => parseInt(x)))  // num[]
+        sumUnMarked: () => grid.map(row => row.filter(IsString).map(ToInt))  // num[]
             .reduce((a, b) => a.concat(b))
             .reduce((a, b) => a + b)
         ,
         nextDraw: (num) => {
-            grid.find(row => updateRowIfFound(row, num))
+            grid.find(row => updateRowWithDraw(row, num))
         },
         hasWon: () => {
-            for (row of grid) if (row.every(x => typeof x === "number")) return true
-            for (i = 0; i < grid[0].length; i++) if (grid.map(row => row[i]).every(x => typeof x === "number")) return true
+            for (row of grid) if (row.every(IsNumber)) return true
+            for (i = 0; i < grid[0].length; i++) if (grid.map(row => row[i]).every(IsNumber)) return true
 
             return false;
         }
@@ -52,34 +54,28 @@ const run = ({ file, newBoard, winCondition }) => {
     let boards = []
     let boardIndex = 0;
 
-    // push all the data into the models
     for (line of input) {
         if (line.trim().length === 0) boards.push(newBoard(boardIndex++))
         else boards[boardIndex - 1].setRow(line)
     }
 
-    let result = 0
-    const wonBoards = []
     for (num of drawNumbers) {
-        // run through the draw numbers
         for (board of boards) board.nextDraw(num)
 
         const winsThisTurn = boards.filter(b => b.hasWon())
         boards = boards.filter(b => !winsThisTurn.includes(b))
 
-
-        const boardWon = winCondition({ winsThisTurn, boards })
-        if (boardWon) {
-            boardWon.print()
-            result = boardWon.sumUnMarked() * num
-            break;
+        const winningBoard = winCondition({ winsThisTurn, boards })
+        if (winningBoard) {
+            winningBoard.print()
+            return winningBoard.sumUnMarked() * num
         }
     }
 
-    return result
+    return "??"
 }
 
-const pt1 = ({ winsThisTurn }) => winsThisTurn.find(x => true)
+const pt1 = ({ winsThisTurn }) => winsThisTurn.length && winsThisTurn[0]
 const pt2 = ({ winsThisTurn, boards }) => {
     if (boards.length === 0) return winsThisTurn[0]
 }
@@ -89,5 +85,5 @@ console.log(`Pt1 : expect 4512 : actual = ${run({ file: test, newBoard, winCondi
 console.log(`Pt2 : expect 1924 : actual = ${run({ file: test, newBoard, winCondition: pt2 })}\n\n`)
 
 console.log(`Pt1 : answer = ${run({ file: real, newBoard, winCondition: pt1 })}\n\n`)
-console.log(`Pt2 : answer = ${run({ file: real, newBoard, winCondition: pt2 })}\n\n`)
+console.log(`Pt2 : answer = ${run({ file: real, newBoard, winCondition: pt2 })}\n`)
 console.log(`END   - day ${day}\n`)
