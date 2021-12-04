@@ -11,38 +11,37 @@ const ToInt = (s) => parseInt(s)
 
 const updateRowWithDraw = (input, sDrawNum) => {
     if (input.find(x => x === sDrawNum)) {
-        const newVals = input.map(x => x === sDrawNum ? ToInt(sDrawNum) : x)
-        for (i = 0; i < input.length; i++) input[i] = newVals[i]
+        // flip sNum => iNum so it prints different in console
+        for (i = 0; i < input.length; i++) input[i] = input[i] === sDrawNum ? ToInt(sDrawNum) : input[i]
         return true
     }
     return false
 }
 
 const newBoard = (index) => {
-    const grid = [[], [], [], [], []]
+    const rows = [[], [], [], [], []]
 
     return {
         print: () => {
             console.log(`<board index=${index}>`)
-            for (row of grid) console.log(row)
+            for (row of rows) console.log(row)
             console.log("</board>")
         },
         setRow: (sRow) => {
             const items = sRow.split(" ").map(x => x.trim()).filter(x => x != "")
-            const nextRow = grid.find(r => r.length === 0)
+            const nextRow = rows.find(r => r.length === 0)
             if (nextRow) nextRow.push(...items)
         },
-        sumUnMarked: () => grid.map(row => row.filter(IsString).map(ToInt))  // num[]
+        sumUnMarked: () => rows.map(row => row.filter(IsString).map(ToInt))  // num[]
             .reduce((a, b) => a.concat(b))
             .reduce((a, b) => a + b)
         ,
         nextDraw: (num) => {
-            grid.find(row => updateRowWithDraw(row, num))
+            rows.find(row => updateRowWithDraw(row, num))
         },
         hasWon: () => {
-            for (row of grid) if (row.every(IsNumber)) return true
-            for (i = 0; i < grid[0].length; i++) if (grid.map(row => row[i]).every(IsNumber)) return true
-
+            for (row of rows) if (row.every(IsNumber)) return true
+            for (i = 0; i < rows[0].length; i++) if (rows.map(row => row[i]).every(IsNumber)) return true
             return false;
         }
     }
