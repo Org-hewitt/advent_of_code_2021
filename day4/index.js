@@ -48,18 +48,17 @@ const newBoard = (index) => {
 }
 
 const run = ({ file, newBoard, winCondition }) => {
-    const input = readFile(file).split("\n")
-    const drawNumbers = input.shift().split(",")
+    const [numbers, ...grids] = readFile(file).split("\n")
     let boards = []
-    let boardIndex = 0;
+    let boardIndex = -1;
 
-    for (line of input) {
-        if (line.trim().length === 0) boards.push(newBoard(boardIndex++))
-        else boards[boardIndex - 1].setRow(line)
+    for (l of grids) {
+        if (l.length === 0) boards.push(newBoard(++boardIndex))
+        else boards[boardIndex].setRow(l)
     }
 
-    for (num of drawNumbers) {
-        for (board of boards) board.nextDraw(num)
+    for (num of numbers.split(",")) {
+        for (b of boards) b.nextDraw(num)
 
         const winsThisTurn = boards.filter(b => b.hasWon())
         boards = boards.filter(b => !winsThisTurn.includes(b))
@@ -75,9 +74,7 @@ const run = ({ file, newBoard, winCondition }) => {
 }
 
 const pt1 = ({ winsThisTurn }) => winsThisTurn.length && winsThisTurn[0]
-const pt2 = ({ winsThisTurn, boards }) => {
-    if (boards.length === 0) return winsThisTurn[0]
-}
+const pt2 = ({ winsThisTurn, boards }) => { if (boards.length === 0) return winsThisTurn[0] }
 
 console.log(`START - day ${day}\n`)
 console.log(`Pt1 : expect 4512 : actual = ${run({ file: test, newBoard, winCondition: pt1 })}\n\n`)
