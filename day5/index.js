@@ -21,7 +21,7 @@ const pointsBetweenCoords = (origin, end) => {
     const result = [origin]
     let lastCoord = origin
 
-    while (!(lastCoord[0] == end[0] && lastCoord[1] == end[1])) {
+    while (!(lastCoord[0] == x2 && lastCoord[1] == y2)) {
         const nextCoord = [lastCoord[0] + vector[0], lastCoord[1] + vector[1]]
         result.push(nextCoord)
         lastCoord = nextCoord
