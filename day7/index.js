@@ -12,12 +12,10 @@ const run = ({ file, fuelCost }) => {
     const max = input.reduce((acc, v) => v < acc ? acc : v, 0)
     const min = input.reduce((acc, v) => v > acc ? acc : v, 0)
     let lastFuelCost = 999999999999999999999;
-    // console.log(min, max)
     for (let x = min; x <= max; x++) {
         const cost = input.reduce((acc, v) => acc + fuelCost(x, v), 0)
         if (cost > lastFuelCost) break
         lastFuelCost = cost
-        // console.log(`x=${x} cost of -> ${cost}`)
     }
 
     return lastFuelCost
