@@ -15,28 +15,36 @@ const run1 = ({ file, lookFor }) => readFile(file).split("\n")
 
 const uniqueLenghts = [2, 3, 4, 7] // 1, 7, 4, 8
 
-const decode = (mapping, aCodes) => {
-    console.log(`here`, mapping, aCodes)
-    return aCodes.map(code => {
-        console.log(`searching for ${code} -> ${mapping[code]}`)
-        return mapping[code]
-    }).reduce((acc, v) => acc + v)
-}
+const arrayEquals = (a, b) => a.length === b.length && a.every(v => b.includes(v))
+
+const decode = (mapping, aCodes) => aCodes.map(code => Object.entries(mapping).find(([_, aVal]) => arrayEquals(aVal, code)).shift()).reduce((acc, v) => acc + v)
 
 const run2 = ({ file, getMapping }) => readFile(file).split("\n")
     .map(line => {
         const [codes, values] = line.split(" | ")
-        const mapping = getMapping(codes)
-        return toInt(decode(mapping, values.split(" ")))
+        return toInt(decode(getMapping(codes), values.split(" ").map(x => x.split(""))))
     })
 
-const mappingLine1TestData = { "acedgfb": "8", "cdfbe": "5", "gcdfa": "2", "fbcad": "3", "dab": "7", "cefabd": "9", "cdfgeb": "6", "eafb": "4", "cagedb": "0", "ab": "1" }
+const mappingLine1TestData = {
+    "0": ["c", "a", "g", "e", "d", "b"],
+    "1": ["a", "b"],
+    "2": ["a", "c", "d", "f", "g"],
+    "3": ["a", "b", "c", "d", "f"],
+    "4": ["a", "b", "e", "f"],
+    "5": ["b", "c", "d", "e", "f"],
+    "6": ["b", "c", "d", "e", "f", "g"],
+    "7": ["a", "b", "d"],
+    "8": ["a", "b", "c", "d", "e", "f", "g"],
+    "9": ["a", "b", "c", "d", "e", "f"]
+}
+
+
 
 console.log(`START - day ${day}\n`)
 console.log(`PART - 1 : \n`)
 // console.log(`test data : expect     2  : actual = ${run1({ file: test, lookFor: uniqueLenghts })}`)
 console.log(`real data : confirmed: 303 : result = ${run1({ file: real, lookFor: uniqueLenghts })}\n`)
 console.log(`PART - 2: \n`)
-console.log(`test data : expect    5353 : actual = ${run2({ file: test, getMapping: () => mappingLine1TestData })}`)
+console.log(`test data : expect      61229 : actual = ${run2({ file: test, getMapping })}`)
 // console.log(`real data : confirmed: xxx : result = ${run({ file: real })}\n`)
 console.log(`END - day ${day}\n`)
