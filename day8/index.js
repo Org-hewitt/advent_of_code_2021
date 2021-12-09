@@ -16,7 +16,6 @@ const run1 = ({ file, lookFor }) => readFile(file).split("\n")
 const uniqueLenghts = [2, 3, 4, 7] // 1, 7, 4, 8
 
 const arrayEquals = (a, b) => {
-    console.log(` >> arrayEquals : ${a} in ${b}`)
     const foo = a.length === b.length && a.every(v => b.includes(v))
     console.log(` >> arrayEquals : ${a} in ${b} RESULT=${foo}`)
     return foo
@@ -41,7 +40,9 @@ const setOf = (a1, a2) => {
 }
 
 const getMapping = inputs => {
-    const parts = inputs.split(" ").map(x => x.split("").sort())
+    const uParts = inputs.split(" ").map(x => x.split(""))
+    console.log(uParts)
+    const parts = uParts.sort()
     const results = {}
 
     results["1"] = parts.find(part => part.length === 2)
@@ -68,6 +69,6 @@ console.log(`test data : expect     2  : actual = ${run1({ file: test, lookFor: 
 console.log(`real data : confirmed: 303 : result = ${run1({ file: real, lookFor: uniqueLenghts })}\n`)
 console.log(`PART - 2: \n`)
 console.log(`here1`)
-console.log(`test data : expect      61229 : actual = ${run2({ file: test, getMapping })}`)
+// console.log(`test data : expect      61229 : actual = ${run2({ file: test, getMapping })}`)
 console.log(`real data : confirmed: xxx : result = ${run2({ file: real, getMapping })}\n`)
 console.log(`END - day ${day}\n`)
