@@ -15,16 +15,24 @@ const run1 = ({ file, lookFor }) => readFile(file).split("\n")
 
 const uniqueLenghts = [2, 3, 4, 7] // 1, 7, 4, 8
 
-const arrayEquals = (a, b) => a.length === b.length && a.every(v => b.includes(v))
-
+const arrayEquals = (a, b) => {
+    console.log(`    > arrayEquals for ${a} in ${b} START`)
+    const foo = a.length === b.length && a.every(v => {
+        const r = b.includes(v)
+        console.log(`      > arrayEquals for ${v} in ${b} RESULT: ${r}`)
+        return r
+    })
+    console.log(`    > arrayEquals for ${a} in ${b} RESULT: ${foo}`)
+    return foo
+}
 const decode = (mapping, aCodes) => {
     console.log(`got here`)
-    console.log(mapping)
-    console.log(`got here 2`)
+    // console.log(mapping)
+    // console.log(`got here 2`)
     // console.log(aCodes)
     return aCodes.map(code => Object.entries(mapping).find(([_, aVal]) => {
         const result = arrayEquals(aVal, code)
-        console.log(`   >> searching for ${code} within ${aVal} RESULT=${result}`)
+        console.log(`  > decode for ${code} within ${aVal} RESULT=${result}`)
         return result
     }).shift()).reduce((acc, v) => acc + v)
 }
@@ -75,6 +83,7 @@ const getMapping = inputs => {
     results["3"] = fiveSizeSet.find(part => setOf(part, results["1"]).length === 5)
     results["5"] = fiveSizeSet.find(part => setOf(part, results["1"]).length === 6)
 
+    console.log(results)
     return results
 }
 
