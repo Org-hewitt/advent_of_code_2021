@@ -16,14 +16,25 @@ const getAdjacents = (x, y, rows) =>
 
 const isMinimum = (x, y, rows) => getAdjacents(x, y, rows).every(([x2, y2]) => rows[y2][x2] > rows[y][x])
 
-const calcScorePt1 = (mins, rows) => mins.reduce((a, b) => a + b + 1, 0)
+const getBasinFor = ([x, y], rows) => getAdjacents([x, y], rows)
+    .filter(([x2, y2]) => rows[y, x] + 1 === rows[y2, x2])
+    .filter(([x2, y2]) => rows[y2, x2] !== 9)
+
+const calcScorePt1 = (mins, rows) => mins.map(([x, y]) => rows[y][x]).reduce((a, b) => a + b + 1, 0)
+const calcScorePt2 = (mins, rows) => {
+    console.log(`calcScore Pt2 - against, `, mins)
+    const result = mins.map(min => getBasinFor(min, rows))
+    console.log(result)
+    return 1
+}
+
 
 const run = ({ file, calcScore }) => {
     const rows = readFile(file).split("\n").map(x => x.split("").map(toInt))
     const localMins = []
     rows.forEach((row, y) => {
-        row.forEach((val, x) => {
-            if (isMinimum(x, y, rows)) localMins.push(val)
+        row.forEach((_, x) => {
+            if (isMinimum(x, y, rows)) localMins.push([x, y])
         })
     })
 
@@ -35,6 +46,6 @@ console.log(`PART - 1 : \n`)
 console.log(`test data : expect      15 : actual = ${run({ file: test, calcScore: calcScorePt1 })}`)
 console.log(`real data : confirmed: 570 : result = ${run({ file: real, calcScore: calcScorePt1 })} \n`)
 console.log(`PART - 2: \n`)
-// console.log(`test data : expect     xxx : actual = ${run({ file: test })}`)
+console.log(`test data : expect    1134 : actual = ${run({ file: test, calcScore: calcScorePt2 })}`)
 // console.log(`real data : confirmed: xxx : result = ${run({ file: real })}\n`)
 console.log(`END - day ${day}\n`)
