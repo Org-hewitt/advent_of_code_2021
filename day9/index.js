@@ -16,9 +16,9 @@ const getAdjacents = (x, y, rows) =>
 
 const isMinimum = (x, y, rows) => getAdjacents(x, y, rows).every(([x2, y2]) => rows[y2][x2] > rows[y][x])
 
-const riskLevelPt1 = () => 1
+const calcScorePt1 = (mins, rows) => mins.reduce((a, b) => a + b + 1, 0)
 
-const run = ({ file, riskLevel }) => {
+const run = ({ file, calcScore }) => {
     const rows = readFile(file).split("\n").map(x => x.split("").map(toInt))
     const localMins = []
     rows.forEach((row, y) => {
@@ -27,13 +27,13 @@ const run = ({ file, riskLevel }) => {
         })
     })
 
-    return localMins.reduce((a, b) => a + b + riskLevel(b), 0)
+    return calcScore(localMins, rows)
 }
 
 console.log(`START - day ${day}\n`)
 console.log(`PART - 1 : \n`)
-console.log(`test data : expect      15 : actual = ${run({ file: test, riskLevel: riskLevelPt1 })}`)
-console.log(`real data : confirmed: 570 : result = ${run({ file: real, riskLevel: riskLevelPt1 })} \n`)
+console.log(`test data : expect      15 : actual = ${run({ file: test, calcScore: calcScorePt1 })}`)
+console.log(`real data : confirmed: 570 : result = ${run({ file: real, calcScore: calcScorePt1 })} \n`)
 console.log(`PART - 2: \n`)
 // console.log(`test data : expect     xxx : actual = ${run({ file: test })}`)
 // console.log(`real data : confirmed: xxx : result = ${run({ file: real })}\n`)
