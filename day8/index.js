@@ -38,6 +38,8 @@ const getMapping = inputs => {
     results["8"] = parts.find(part => part.length === 7)
 
     let fiveSizeSet = parts.filter(x => x.length === 5)
+    const fiveSizeSet = parts.filter(x => x.length === 5)
+
     results["2"] = fiveSizeSet.find(part => setOf(part, results["4"]).length === 7)
     fiveSizeSet = fiveSizeSet.filter(x => !arrayEquals(x, results["2"]))
     results["3"] = fiveSizeSet.find(part => setOf(part, results["1"]).length === 5)
@@ -48,6 +50,11 @@ const getMapping = inputs => {
     sixSizeSet = sixSizeSet.filter(a => !arrayEquals(a, results["6"]))
     results["0"] = sixSizeSet.find(part => setOf(part, results["5"]).length === 7)
     results["9"] = sixSizeSet.filter(a => !arrayEquals(results["0"], a)).pop()
+  
+    const sixSizeSet = parts.filter(x => x.length === 6)
+    results["6"] = sixSizeSet.find(part => setOf(part, results["1"]).length === 7)
+    results["0"] = sixSizeSet.find(part => setOf(part, results["5"]).length === 7)
+    results["9"] = sixSizeSet.find(part => !arrayEquals(results["0"], part) && !arrayEquals(results["6"], part))
 
     return results
 }
