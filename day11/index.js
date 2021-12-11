@@ -18,21 +18,21 @@ const getFlashes = (arr, oldFlashes) => {
     const points = {}
     for (let y = 0; y < arr.length; y++)
         for (let x = 0; x < arr[y].length; x++)
-            if (arr[y][x] >= 10 && !oldFlashes.has(`(${x},${y})`)) {
-                const key = `(${x},${y})`
-                oldFlashes.add(key)
-                points[key] = getPointsAdjacentTo([x, y], arr)
-            }
+            if (arr[y][x] >= 10 && !oldFlashes.has(`(${x},${y})`))
+                points[`(${x},${y})`] = getPointsAdjacentTo([x, y], arr)
     return points
 }
 
 const tick = (input) => {
     for (let y = 0; y < input.length; y++) for (let x = 0; x < input[y].length; x++) input[y][x] += 1
-    let newFlashes = []
+    let newFlashes = {}
     const flashPoints = new Set()
     do {
         newFlashes = getFlashes(input, flashPoints)
-        Object.values(newFlashes).forEach(points => points.forEach(([x, y]) => input[y][x] += 1));
+        Object.entries(newFlashes).forEach(([key, points]) => {
+            flashPoints.add(key)
+            points.forEach(([x, y]) => input[y][x] += 1)
+        });
     } while (Object.keys(newFlashes).length !== 0)
 
     let flashCount = 0
@@ -55,10 +55,10 @@ const run = ({ file }) => {
 
 const run2 = ({ file }) => {
     const input = readFile(file).split('\n').map(s => s.split("").map(toInt))
-    let flashes, run = 0
-    do { flashes = tick(input); run++ }
+    let flashes, tickCount = 0
+    do { flashes = tick(input); tickCount++ }
     while (flashes !== 100)
-    return run
+    return tickCount
 }
 
 console.log(`START - day ${day}\n`)
