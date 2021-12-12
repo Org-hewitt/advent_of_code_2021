@@ -1,25 +1,16 @@
 #!/usr/bin/env node
-const { readFile } = require('../util/helpers');
+const { readFile, toInt, getAdjacentPoints } = require('../util/helpers');
 
 const day = 11;
 const test = `./day${day}/data_test.txt`
 const real = `./day${day}/data_real.txt`
-
-const toInt = x => parseInt(x)
-const getPointsAdjacentTo = ([x, y], arr) => [
-    [x - 1, y - 1], [x, y - 1], [x + 1, y - 1],
-    [x - 1, y], [x, y], [x + 1, y],
-    [x - 1, y + 1], [x, y + 1], [x + 1, y + 1]
-]
-    .filter(([x, y]) => x >= 0 && y >= 0)
-    .filter(([x, y]) => x < arr[0].length && y < arr.length)
 
 const getFlashes = (arr, oldFlashes) => {
     const points = {}
     for (let y = 0; y < arr.length; y++)
         for (let x = 0; x < arr[y].length; x++)
             if (arr[y][x] >= 10 && !oldFlashes.has(`(${x},${y})`))
-                points[`(${x},${y})`] = getPointsAdjacentTo([x, y], arr)
+                points[`(${x},${y})`] = getAdjacentPoints({ point: [x, y], maxX: arr[0].length - 1, maxY: arr.length - 1, includeDiagonal: true })
     return points
 }
 
