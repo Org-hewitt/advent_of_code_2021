@@ -1,28 +1,23 @@
 #!/usr/bin/env node
-const { readFile } = require('../util/helpers');
+const { readFile, getAdjacentPoints, toInt } = require('../util/helpers');
 
 const day = 9;
 const test = `./day${day}/data_test.txt`
 const real = `./day${day}/data_real.txt`
 
-const toInt = x => parseInt(x)
 
-const getAdjacents = (x, y, rows) =>
-    [[x + 1, y], [x - 1, y], [x, y + 1], [x, y - 1]]
-        .filter(([x1, y1]) => x1 >= 0)
-        .filter(([x1, y1]) => y1 >= 0)
-        .filter(([x1, y1]) => x1 <= rows[0].length - 1)
-        .filter(([x1, y1]) => y1 <= rows.length - 1)
+const isMinimum = (x, y, rows) => getAdjacentPoints({
+    point: [x, y], maxX: rows[0].length - 1, maxY: rows.length - 1
+}).every(([x2, y2]) => rows[y2][x2] > rows[y][x])
 
-const isMinimum = (x, y, rows) => getAdjacents(x, y, rows).every(([x2, y2]) => rows[y2][x2] > rows[y][x])
-
-const getBasinFor = ([x, y], rows, inBasin) =>
-    getAdjacents(x, y, rows)
-        .filter(([x1, y1]) => rows[y1][x1] !== 9)                                   // get rid of 9s
-        .filter(([x1, y1]) => !inBasin.some(([x2, y2]) => x1 === x2 && y1 === y2))  // get rid of already processed points
-        .filter(([x1, y1]) => rows[y][x] < rows[y1][x1])                            // we're still a valid basin point
-        .map(point => { inBasin.push([point[0], point[1]]); return point; })
-        .map(point => getBasinFor(point, rows, inBasin))
+const getBasinFor = ([x, y], rows, inBasin) => getAdjacentPoints({
+    point: [x, y], maxX: rows[0].length - 1, maxY: rows.length - 1
+})
+    .filter(([x1, y1]) => rows[y1][x1] !== 9)                                   // get rid of 9s
+    .filter(([x1, y1]) => !inBasin.some(([x2, y2]) => x1 === x2 && y1 === y2))  // get rid of already processed points
+    .filter(([x1, y1]) => rows[y][x] < rows[y1][x1])                            // we're still a valid basin point
+    .map(point => { inBasin.push([point[0], point[1]]); return point; })
+    .map(point => getBasinFor(point, rows, inBasin))
 
 const calcScorePt1 = (mins, rows) => mins.map(([x, y]) => rows[y][x]).reduce((a, b) => a + b + 1, 0)
 const calcScorePt2 = (mins, rows) => {
