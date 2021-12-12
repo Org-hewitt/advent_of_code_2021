@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const { readFile, log } = require('../util/helpers');
+const { readFile } = require('../util/helpers');
 
 const day = 12;
 const test = `./day${day}/data_test.txt`
