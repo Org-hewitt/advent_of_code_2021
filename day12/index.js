@@ -26,10 +26,7 @@ const flatten = (arr, result) => {
 
 const traverse = (graph, startFrom, visited, canVisit) => {
     const safeVisited = [...(visited || [])]
-    const canGoTo = graph[startFrom].filter(to => {
-        const can = canVisit(to, visited)
-        return can
-    })
+    const canGoTo = graph[startFrom].filter(to => canVisit(to, visited))
     return canGoTo.map(to => {
         if (to === 'end') return safeVisited.concat(to)
         return traverse(graph, to, safeVisited.concat([to]), canVisit)
@@ -67,18 +64,16 @@ const run = ({ file, canVisit }) => {
         }
     }
 
-    // console.log(routes)
-
     return routes.length
 }
 
 console.log(`START - day ${day}\n`)
 console.log(`PART - 1 : \n`)
-console.log(`test data : expect       10 : actual = ${run({ canVisit: pt1, file: test })}`)
-console.log(`test data : expect       19 : actual = ${run({ canVisit: pt1, file: `./day${day}/data_test2.txt` })}`)
-console.log(`test data : expect      226 : actual = ${run({ canVisit: pt1, file: `./day${day}/data_test3.txt` })}`)
-console.log(`real data : confirmed: 4912 : result = ${run({ canVisit: pt1, file: real })}\n`)
+console.log(`test data : expect          10 : actual = ${run({ canVisit: pt1, file: test })}`)
+console.log(`test data : expect          19 : actual = ${run({ canVisit: pt1, file: `./day${day}/data_test2.txt` })}`)
+console.log(`test data : expect         226 : actual = ${run({ canVisit: pt1, file: `./day${day}/data_test3.txt` })}`)
+console.log(`real data : confirmed:    4912 : result = ${run({ canVisit: pt1, file: real })}\n`)
 console.log(`PART - 2: \n`)
-console.log(`test data : expect       36 : actual = ${run({ canVisit: pt2, file: test })}`)
-console.log(`real data : confirmed:  xxx : result = ${run({ canVisit: pt2, file: real })}\n`)
+console.log(`test data : expect          36 : actual = ${run({ canVisit: pt2, file: test })}`)
+console.log(`real data : confirmed:  150004 : result = ${run({ canVisit: pt2, file: real })}\n`)
 console.log(`END - day ${day}\n`)
