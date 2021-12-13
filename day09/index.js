@@ -1,10 +1,8 @@
 #!/usr/bin/env node
-const { readFile, getAdjacentPoints, toInt } = require('../util/helpers');
+const { readFile, getAdjacentPoints, toInt, getFileStrings } = require('../util/helpers');
 
 const day = 9;
-const test = `./day${day}/data_test.txt`
-const real = `./day${day}/data_real.txt`
-
+const { test, real } = getFileStrings(day)
 
 const isMinimum = (x, y, rows) => getAdjacentPoints({
     point: [x, y], maxX: rows[0].length - 1, maxY: rows.length - 1

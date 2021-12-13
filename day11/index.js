@@ -1,9 +1,8 @@
 #!/usr/bin/env node
-const { readFile, toInt, getAdjacentPoints } = require('../util/helpers');
+const { readFile, toInt, getAdjacentPoints, getFileStrings } = require('../util/helpers');
 
 const day = 11;
-const test = `./day${day}/data_test.txt`
-const real = `./day${day}/data_real.txt`
+const { test, real } = getFileStrings(day)
 
 const getFlashes = (arr, oldFlashes) => {
     const points = {}

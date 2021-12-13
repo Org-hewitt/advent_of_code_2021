@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-const { readFile } = require('../util/helpers');
+const { readFile, getFileStrings } = require('../util/helpers');
 
-const test = "./day3/data_test.txt"
-const real = "./day3/data_real.txt"
+const day = 3;
+const { test, real } = getFileStrings(day)
 
 const countOnes = (acc, val) => {
     const length = val.length

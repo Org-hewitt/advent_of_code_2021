@@ -16,8 +16,8 @@ const runWith = ({ size, file }) => {
 }
 
 console.log(`START - day 1`)
-console.log(`Pt1 : expect 7 : actual = ${runWith({ size: 1, file: "./day1/data_test.txt" })}`)
-console.log(`Pt1 : answer = ${runWith({ size: 1, file: "./day1/data_real.txt" })}`)
-console.log(`Pt2 : expect 5 : actual = ${runWith({ size: 3, file: "./day1/data_test.txt" })}`)
-console.log(`Pt2 : answer = ${runWith({ size: 3, file: "./day1/data_real.txt" })}`)
+console.log(`Pt1 : expect 7 : actual = ${runWith({ size: 1, file: "./day01/data_test.txt" })}`)
+console.log(`Pt1 : answer = ${runWith({ size: 1, file: "./day01/data_real.txt" })}`)
+console.log(`Pt2 : expect 5 : actual = ${runWith({ size: 3, file: "./day01/data_test.txt" })}`)
+console.log(`Pt2 : answer = ${runWith({ size: 3, file: "./day01/data_real.txt" })}`)
 console.log(`END   - day 1`)
