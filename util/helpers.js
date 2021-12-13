@@ -1,8 +1,12 @@
 var fs = require("fs");
 
 const readFile = (path) => fs.readFileSync(path, { encoding: 'utf8' });
+const getFileStrings = (day) => ({
+    test: `./day${String(day).length === 1 ? `0${day}` : day}/data_test.txt`,
+    real: `./day${String(day).length === 1 ? `0${day}` : day}/data_real.txt`,
+})
 const toInt = x => parseInt(x)
-const log = preface => x => console.log(preface, x)
+const log = preface => (...x) => console.log(preface, ...x)
 const getDiagonals = ([x, y]) => [[x - 1, y - 1], [x + 1, y - 1], [x - 1, y + 1], [x + 1, y + 1]]
 const getOrthogonal = ([x, y]) => [[x, y - 1], [x - 1, y], [x + 1, y], [x, y + 1]]
 const getAdjacentPoints = ({ point: [x, y], maxX, maxY, includeDiagonal = false }) =>
@@ -14,6 +18,7 @@ const getAdjacentPoints = ({ point: [x, y], maxX, maxY, includeDiagonal = false 
 module.exports = {
     readFile,
     toInt,
+    getFileStrings,
     log,
     getAdjacentPoints
 }

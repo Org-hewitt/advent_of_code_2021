@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-const { readFile } = require('../util/helpers');
+const { readFile, getFileStrings } = require('../util/helpers');
 
-const test = "./day2/data_test.txt"
-const real = "./day2/data_real.txt"
+const day = 2;
+const { test, real } = getFileStrings(day)
 
 const vectorReducer = (vectorFactory) => (vOld, sOrder) => {
     const [move, sUnit] = sOrder.split(" ")

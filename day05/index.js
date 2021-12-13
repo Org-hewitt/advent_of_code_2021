@@ -1,9 +1,8 @@
 #!/usr/bin/env node
-const { readFile } = require('../util/helpers');
+const { readFile, getFileStrings } = require('../util/helpers');
 
 const day = 5;
-const test = `./day${day}/data_test.txt`
-const real = `./day${day}/data_real.txt`
+const { test, real } = getFileStrings(day)
 
 const toInt = (x) => parseInt(x)
 const ide = (v1, v2) => v1 === v2 ? 0 : v1 > v2 ? -1 : 1
