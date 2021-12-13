@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const { readFile, getFileStrings } = require('../util/helpers');
 
-const day = 1;
+const day = 14;
 const { test, real } = getFileStrings(day)
 
 const run = ({ file }) => {
