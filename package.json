@@ -4,5 +4,9 @@
   "description": "Advent of Code 2021",
   "main": "run.js",
   "author": "Robert Hewitt",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "dijkstrajs": "^1.0.2",
+    "graph": "^0.2.0"
+  }
 }
