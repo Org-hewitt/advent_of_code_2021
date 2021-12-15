@@ -2,3 +2,12 @@
 # yarn lockfile v1
 
 
+"dijkstrajs@^1.0.2":
+  "integrity" "sha512-QV6PMaHTCNmKSeP6QoXhVTw9snc9VD8MulTT0Bd99Pacp4SS1cjcrYPgBPmibqKVtMJJfqC6XvOXgPMEEPH/fg=="
+  "resolved" "https://registry.npmjs.org/dijkstrajs/-/dijkstrajs-1.0.2.tgz"
+  "version" "1.0.2"
+
+"graph@^0.2.0":
+  "integrity" "sha1-q2CdgzDWoopPICL1hV46j7ZmsA0="
+  "resolved" "https://registry.npmjs.org/graph/-/graph-0.2.0.tgz"
+  "version" "0.2.0"
