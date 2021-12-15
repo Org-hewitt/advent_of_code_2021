@@ -5,9 +5,10 @@ const day = 1;
 const { test, real } = getFileStrings(day)
 
 const run = ({ file }) => {
-    const s = readFile(file)
+    const lines = readFile(file).split("\n")
 
-    log("hi")(s)
+    console.log(lines)
+
     return "?"
 }
 
